@@ -1,10 +1,21 @@
 # création d'une IP publique
 resource "scaleway_instance_ip" "nextcloud_ip" {}
 
+# création de règles de firewall
+resource "scaleway_instance_security_group" "nextcloud_firewall" {
+  inbound_default_policy  = "drop"
+  outbound_default_policy = "accept"
+  inbound_rule {
+    action = "accept"
+    port   = 80
+  }
+}
+
 # création de la base de données et attribution des droits
 resource "random_password" "db_admin_password" {
   length  = 16
   special = true
+  min_numeric = 1
 }
 resource "scaleway_rdb_instance" "nextcloud_database_instance" {
   name          = "nextcloud_database_instance"
@@ -24,6 +35,7 @@ resource "scaleway_rdb_database" "nextcloud_db" {
 resource "random_password" "db_password" {
   length  = 16
   special = true
+  min_numeric = 1
 }
 resource "scaleway_rdb_user" "nextcloud_db_user" {
   instance_id = scaleway_rdb_instance.nextcloud_database_instance.id
