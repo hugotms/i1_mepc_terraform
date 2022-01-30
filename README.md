@@ -34,3 +34,7 @@ Notre LoadBalancer nous permet d'accéder à notre application sur le port 80, e
 Le type de machines/instances choisies pour réaliser ce TP ne sont pas viable pour une application qui serait mise en production ou qui contiendrait des données sensibles. Des solutions beaucoup plus adaptées sont fournies par Scaleway et devrait être privilégiées.
 
 De plus, si une ébauche de backup de base de données a été réalisée, une sécurisation plus importante devrait être réalisée.
+
+## Difficultés
+
+Nextcloud fonctionnant dans un cluster Kubernetes ne permet pas en l'état de sauvegarder des fichiers. En effet, il faudrait pour cela un volume monté et accessible par ce dernier. Pour cela, nous avions choisis d'utiliser un bucket S3 (donc le service Object Storage) cependant la création de ce dernier faisait constamment planter Terraform. Le problème viendrait apparemment du nom incorrect. Ce dernier étant simplement "nextcloud". Evidemment, aucun autre bucket n'était présent.
