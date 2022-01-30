@@ -1,15 +1,5 @@
 # création d'une IP publique
-resource "scaleway_instance_ip" "nextcloud_ip" {}
-
-# création de règles de firewall
-resource "scaleway_instance_security_group" "nextcloud_firewall" {
-  inbound_default_policy  = "drop"
-  outbound_default_policy = "accept"
-  inbound_rule {
-    action = "accept"
-    port   = 80
-  }
-}
+resource "scaleway_lb_ip" "nextcloud_ip" {}
 
 # création de la base de données et attribution des droits
 resource "random_password" "db_admin_password" {
@@ -98,7 +88,7 @@ resource "helm_release" "nextcloud" {
   chart = "nextcloud"
   set {
     name = "nextcloud.host"
-    value = scaleway_instance_ip.nextcloud_ip.address
+    value = scaleway_lb_ip.nextcloud_ip.ip_address
   }
   set {
     name = "nextcloud.password"
@@ -129,7 +119,11 @@ resource "helm_release" "nextcloud" {
     value = 80
   }
   set {
+    name = "service.type"
+    value = "LoadBalancer"
+  }
+  set {
     name = "service.loadBalancerIP"
-    value = scaleway_instance_ip.nextcloud_ip.address
+    value = scaleway_lb_ip.nextcloud_ip.ip_address
   }
 }
