@@ -127,3 +127,8 @@ resource "helm_release" "nextcloud" {
     value = scaleway_lb_ip.nextcloud_ip.ip_address
   }
 }
+output "nextcloud_url" {
+  depends_on = [helm_release.nextcloud]
+  description = "Nextcloud Url"
+  value = "http://${scaleway_lb_ip.nextcloud_ip.ip_address}"
+}
