@@ -38,3 +38,5 @@ De plus, si une ébauche de backup de base de données a été réalisée, une s
 ## Difficultés
 
 Nextcloud fonctionnant dans un cluster Kubernetes ne permet pas en l'état de sauvegarder des fichiers. En effet, il faudrait pour cela un volume monté et accessible par ce dernier. Pour cela, nous avions choisis d'utiliser un bucket S3 (donc le service Object Storage) cependant la création de ce dernier faisait constamment planter Terraform. Le problème viendrait apparemment du nom incorrect. Ce dernier étant simplement "nextcloud". Evidemment, aucun autre bucket n'était présent.
+
+![](https://media.discordapp.net/attachments/796002932332036099/937403851470929960/Screenshot_2022-01-30_at_18.47.17.png)
